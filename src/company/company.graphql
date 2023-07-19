@@ -1,0 +1,36 @@
+type Company {
+  id: Int!
+  name: String!
+  admins: [String]
+  schedulers: [String]
+  drivers: [String]
+  companyId: String!
+}
+
+input CreateCompanyInput {
+  name: String!
+  admins: [String]!
+  schedulers: [String]!
+  drivers: [String]!
+  companyId: String!
+}
+
+input UpdateCompanyInput {
+  id: Int!
+  name: String!
+  admins: [String]!
+  schedulers: [String]!
+  drivers: [String]!
+  companyId: String!
+}
+
+type Query {
+  companies: [Company]!
+  company(id: Int!): Company
+}
+
+type Mutation {
+  createCompany(createCompanyInput: CreateCompanyInput!): Company!
+  updateCompany(updateCompanyInput: UpdateCompanyInput!): Company!
+  removeCompany(id: Int!): Company
+}
