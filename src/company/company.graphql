@@ -1,36 +1,27 @@
 type Company {
-  id: Int!
+  companyId: Int!
   name: String!
-  admins: [String]
-  schedulers: [String]
-  drivers: [String]
-  companyId: String!
+  admins: [User!]!
+  schedulers: [User!]!
+  drivers: [User!]!
 }
 
 input CreateCompanyInput {
   name: String!
-  admins: [String]!
-  schedulers: [String]!
-  drivers: [String]!
-  companyId: String!
 }
 
 input UpdateCompanyInput {
-  id: Int!
-  name: String!
-  admins: [String]!
-  schedulers: [String]!
-  drivers: [String]!
-  companyId: String!
+  companyId: Int!
+  name: String
 }
 
 type Query {
-  companies: [Company]!
-  company(id: Int!): Company
+  companies: [Company!]!
+  company(companyId: Int!): Company
 }
 
 type Mutation {
   createCompany(createCompanyInput: CreateCompanyInput!): Company!
   updateCompany(updateCompanyInput: UpdateCompanyInput!): Company!
-  removeCompany(id: Int!): Company
+  removeCompany(companyId: Int!): Company
 }

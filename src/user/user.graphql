@@ -1,0 +1,46 @@
+type User {
+  uid: Int!
+  name: String!
+  address: String!
+  mobileNumber: String!
+  licenseNumber: String!
+  licenseExpiryDate: String!
+  roles: [UserRole!]!
+  companies: [Company!]!
+}
+
+enum UserRole {
+  ADMIN
+  SCHEDULER
+  DRIVER
+}
+
+input CreateUserInput {
+  name: String!
+  address: String!
+  mobileNumber: String!
+  licenseNumber: String!
+  licenseExpiryDate: String!
+  roles: [UserRole!]!
+}
+
+input UpdateUserInput {
+  uid: Int!
+  name: String
+  address: String
+  mobileNumber: String
+  licenseNumber: String
+  licenseExpiryDate: String
+  roles: [UserRole]
+}
+
+type Query {
+  users: [User!]!
+  user(uid: Int!): User
+}
+
+type Mutation {
+  createUser(createUserInput: CreateUserInput!): User!
+  updateUser(updateUserInput: UpdateUserInput!): User!
+  removeUser(uid: Int!): User
+}

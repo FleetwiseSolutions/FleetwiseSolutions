@@ -7,11 +7,37 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Company {
-  id Int @id @default(autoincrement())
-  name String
-  admins String[]
-  schedulers String[]
-  drivers String[]
-  companyId String
+// schema.prisma
+
+// schema.prisma
+
+enum UserRole {
+  ADMIN
+  SCHEDULER
+  DRIVER
 }
+
+model Company {
+  companyId Int    @id @default(autoincrement())
+  name      String
+
+  admins    User[] @relation("CompanyAdmins")
+  schedulers User[] @relation("CompanySchedulers")
+  drivers    User[] @relation("CompanyDrivers")
+}
+
+model User {
+  uid              Int       @id @default(autoincrement())
+  name             String
+  address          String
+  mobileNumber     String
+  licenseNumber    String
+  licenseExpiryDate DateTime
+  roles            UserRole[]
+
+  // Relations with companies
+  companiesAdmin   Company[] @relation("CompanyAdmins")
+  companiesScheduler Company[] @relation("CompanySchedulers")
+  companiesDriver    Company[] @relation("CompanyDrivers")
+}
+

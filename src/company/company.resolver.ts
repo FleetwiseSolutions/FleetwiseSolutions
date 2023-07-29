@@ -1,7 +1,10 @@
 import { Resolver, Query, Mutation, Args } from '@nestjs/graphql';
 import { CompanyService } from './company.service';
-import { CreateCompanyInput } from 'src/types/graphql';
-import { UpdateCompanyInput } from 'src/types/graphql';
+import {
+  Company,
+  CreateCompanyInput,
+  UpdateCompanyInput,
+} from '../types/graphql';
 
 @Resolver('Company')
 export class CompanyResolver {
@@ -24,7 +27,10 @@ export class CompanyResolver {
 
   @Mutation('updateCompany')
   update(@Args('updateCompanyInput') updateCompanyInput: UpdateCompanyInput) {
-    return this.companyService.update(updateCompanyInput.id, updateCompanyInput);
+    return this.companyService.update(
+      updateCompanyInput.companyId,
+      updateCompanyInput,
+    );
   }
 
   @Mutation('removeCompany')

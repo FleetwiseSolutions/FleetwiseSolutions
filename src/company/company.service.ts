@@ -1,30 +1,50 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCompanyInput } from 'src/types/graphql';
-import { UpdateCompanyInput } from 'src/types/graphql';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateCompanyInput, UpdateCompanyInput } from 'src/types/graphql';
 
 @Injectable()
 export class CompanyService {
   constructor(private prisma: PrismaService) {}
-  create({ name, admins, schedulers, drivers, companyId }: CreateCompanyInput) {
+
+  create({ name }: CreateCompanyInput) {
     return this.prisma.company.create({
-      data: {name, admins, schedulers, drivers, companyId}
-    })
+      data: { name },
+    });
   }
 
   findAll() {
-    return `This action returns all company`;
+    return this.prisma.company.findMany({
+      include: {
+        admins: true,
+        schedulers: true,
+        drivers: true,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} company`;
+  findOne(companyId: number) {
+    return this.prisma.company.findUnique({
+      where: { companyId },
+      select: {
+        companyId: true,
+        name: true,
+        admins: true,
+        schedulers: true,
+        drivers: true,
+      },
+    });
   }
 
-  update(id: number, updateCompanyInput: UpdateCompanyInput) {
-    return `This action updates a #${id} company`;
+  update(companyId: number, updateCompanyInput: UpdateCompanyInput) {
+    return this.prisma.company.update({
+      where: { companyId },
+      data: updateCompanyInput,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} company`;
+  remove(companyId: number) {
+    return this.prisma.company.delete({
+      where: { companyId },
+    });
   }
 }
